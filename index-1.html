@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snappa — Edit photos fast</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===== Landing / Upload screen ===== -->
+  <section id="landing" class="screen screen--landing">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand__mark">S</span>
+        <span class="brand__name">Snappa</span>
+      </div>
+    </header>
+
+    <div class="landing__hero">
+      <h1 class="landing__title">Edit your photos.<br>Post in seconds.</h1>
+      <p class="landing__subtitle">Crop for Instagram, add text, drop a filter — no app store, no sign up.</p>
+
+      <label for="fileInput" class="upload-drop" id="uploadDrop">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 16V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="upload-drop__label">Tap to choose a photo</span>
+        <span class="upload-drop__hint">JPG or PNG, from your gallery</span>
+      </label>
+      <input type="file" id="fileInput" accept="image/*" hidden>
+    </div>
+
+    <p class="landing__footnote">Everything happens on your device. Your photos are never uploaded anywhere.</p>
+  </section>
+
+  <!-- ===== Editor screen ===== -->
+  <section id="editor" class="screen screen--editor" hidden>
+    <header class="editor-topbar">
+      <button id="btnBack" class="icon-btn" aria-label="Start over">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="editor-topbar__title">Editing</span>
+      <button id="btnDownload" class="btn-primary btn-primary--small">Save</button>
+    </header>
+
+    <div class="editor-body">
+      <div class="canvas-wrap">
+        <canvas id="canvas"></canvas>
+        <div id="textOverlay" class="text-overlay" hidden contenteditable="true" spellcheck="false"></div>
+      </div>
+    </div>
+
+    <!-- Contextual panel (crop sizes / filters / text controls) -->
+    <div id="contextPanel" class="context-panel" hidden></div>
+
+    <!-- Tool rail -->
+    <nav class="tool-rail" id="toolRail">
+      <button class="tool-btn" data-tool="crop">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 2V18C6 19.1046 6.89543 20 8 20H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 22V8C18 6.89543 17.1046 6 16 6H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Resize</span>
+      </button>
+      <button class="tool-btn" data-tool="filter">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 3C12 3 15 7 15 12C15 17 12 21 12 21" stroke="currentColor" stroke-width="2"/></svg>
+        <span>Filter</span>
+      </button>
+      <button class="tool-btn" data-tool="adjust">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6H20M4 12H20M4 18H20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="8" cy="6" r="2" fill="currentColor"/><circle cx="16" cy="12" r="2" fill="currentColor"/><circle cx="10" cy="18" r="2" fill="currentColor"/></svg>
+        <span>Adjust</span>
+      </button>
+      <button class="tool-btn" data-tool="text">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 6H19M12 6V18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Text</span>
+      </button>
+      <button class="tool-btn" data-tool="rotate">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12C4 7.58172 7.58172 4 12 4C15.0264 4 17.6544 5.68041 19 8.16405" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4V9H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Rotate</span>
+      </button>
+    </nav>
+  </section>
+
+  <canvas id="workCanvas" hidden></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
